@@ -1,0 +1,15 @@
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.deps.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.runtimeconfig.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.pdb
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.GeneratedMSBuildEditorConfig.editorconfig
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.AssemblyInfoInputs.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.AssemblyInfo.cs
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.csproj.CoreCompileInputs.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.sourcelink.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/refint/LoopsAndConditionalsLab.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.pdb
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.genruntimeconfig.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/ref/LoopsAndConditionalsLab.dll
