@@ -1,0 +1,68 @@
+{
+  "format": 1,
+  "restore": {
+    "/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/Week2Foundations.csproj": {}
+  },
+  "projects": {
+    "/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/Week2Foundations.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/Week2Foundations.csproj",
+        "projectName": "Week2Foundations",
+        "projectPath": "/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/Week2Foundations.csproj",
+        "packagesPath": "/home/kat/.nuget/packages/",
+        "outputPath": "/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/kat/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

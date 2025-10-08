@@ -1,0 +1,15 @@
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/bin/Debug/net9.0/Week2Foundations
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/bin/Debug/net9.0/Week2Foundations.deps.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/bin/Debug/net9.0/Week2Foundations.runtimeconfig.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/bin/Debug/net9.0/Week2Foundations.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/bin/Debug/net9.0/Week2Foundations.pdb
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.GeneratedMSBuildEditorConfig.editorconfig
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.AssemblyInfoInputs.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.AssemblyInfo.cs
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.csproj.CoreCompileInputs.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.sourcelink.json
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/refint/Week2Foundations.dll
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.pdb
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/Week2Foundations.genruntimeconfig.cache
+/media/kat/Linux Storage/homework/dev260_fall_2025/assignments/week-2-foundations/Week2Foundations/obj/Debug/net9.0/ref/Week2Foundations.dll
