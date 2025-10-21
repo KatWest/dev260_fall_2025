@@ -494,14 +494,16 @@ namespace Week4DoublyLinkedLists.Core
                     }
                     
                     Console.WriteLine("Testing Reverse (Step 7b):");
-                    Console.WriteLine("Before reverse:");
+                    Console.Write("Before reverse:");
                     list.DisplayForward();
+                    Console.WriteLine();
                     
                     try
                     {
                         list.Reverse();
-                        Console.WriteLine("After reverse:");
+                        Console.Write("After reverse:");
                         list.DisplayForward();
+                        Console.WriteLine();
                         Console.WriteLine("✅ Reverse operation successful!");
                         Console.WriteLine("💡 This demonstrates the power of doubly linked lists - easy reversal!");
                     }
