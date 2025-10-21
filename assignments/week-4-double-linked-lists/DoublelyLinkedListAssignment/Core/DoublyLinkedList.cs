@@ -538,12 +538,13 @@ namespace Week4DoublyLinkedLists.Core
             // 4. Return the stored data
             // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-a-specific-position-in-doubly-linked-list
 
+            // Console.WriteLine($"DoublyLinkedList.RemoveAt({index}): count - {count}");
             if (index >= 0 && index < this.count)
             {
                 if (index == 0)
-                    RemoveFirst();
+                    return RemoveFirst();
                 else if (index == this.count - 1)
-                    RemoveLast();
+                    return RemoveLast();
                 else
                 {
                     var n = GetNodeAt(index);
