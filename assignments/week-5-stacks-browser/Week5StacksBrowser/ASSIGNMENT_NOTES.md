@@ -1,38 +1,38 @@
 # Assignment 5: Browser Navigation System - Implementation Notes
 
-**Name:** [Your Name]
+**Name:** Katherine West
 
 ## Dual-Stack Pattern Understanding
 
 **How the dual-stack pattern works for browser navigation:**
-[Explain your understanding of how the back and forward stacks work together to create browser-like navigation]
+The BackStack stack holds the prevous data, ready to be popped back out, and the ForwardStack stack holds any data that was the 'current' before data from BackStack is popped out.
 
 ## Challenges and Solutions
 
 **Biggest challenge faced:**
-[Describe the most difficult part of the assignment]
+Aside from needing to go back and check some terminal commands, probably kicking myself into do this part of the assignment.
 
 **How you solved it:**
-[Explain your solution approach and what helped you figure it out]
+I let this part of the assignment sit until I felt motivated enought to finish it. Also, Lofi Girl helps me get the right motivation going.
 
 **Most confusing concept:**
-[What was hardest to understand and how you worked through it]
+Everything was very clear. I was not confused at any point (as far as I can remember)
 
 ## Code Quality
 
 **What you're most proud of in your implementation:**
-[Highlight the best aspect of your code]
+BEGONE CURLY BRACES FOR CODE THAT'S ONLY A SINGLE LINE!! 🧙🏼‍♂️
 
 **What you would improve if you had more time:**
-[Identify areas for potential improvement]
+I'm quite satisfied with my code.
 
 ## Testing Approach
 
 **How you tested your implementation:**
-[Describe your overall testing strategy]
+Ran the code, followed the promts, added writelines to make sure that data was going where it was supposed to.
 
 **Issues you discovered during testing:**
-[Any bugs or problems you found and fixed]
+No major issues
 
 ## Stretch Features
 
@@ -40,13 +40,13 @@
 
 ## Time Spent
 
-**Total time:** [X hours]
+**Total time:** 5 hours?
 
 **Breakdown:**
 
-- Understanding the assignment: [X hours]
-- Implementing the 6 methods: [X hours]
-- Testing and debugging: [X hours]
-- Writing these notes: [X hours]
+- Understanding the assignment: < 1 hr
+- Implementing the 6 methods: 2 hr
+- Testing and debugging: 1 hr
+- Writing these notes: < 1 hr
 
-**Most time-consuming part:** [Which aspect took the longest and why]
+**Most time-consuming part:** Coding, but it didn't feel like it. Probably psyching myself up to do this part of the assignment.
