@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Assignment6
 {
     /// <summary>
@@ -85,10 +87,28 @@ namespace Assignment6
         /// </summary>
         public void AddToQueue(Player player, GameMode mode)
         {
+            switch (mode)
+            {
+                case GameMode.Casual:
+                    casualQueue.Enqueue(player);
+                    player.JoinQueue();
+                    break;
+                case GameMode.Ranked:
+                    rankedQueue.Enqueue(player);
+                    player.JoinQueue();
+                    break;
+                case GameMode.QuickPlay:
+                    quickPlayQueue.Enqueue(player);
+                    player.JoinQueue();
+                    break;
+                default:
+                    break;
+            }
+
             // TODO: Implement this method
             // Hint: Use switch statement on mode to select correct queue
             // Don't forget to call player.JoinQueue()!
-            throw new NotImplementedException("AddToQueue method not yet implemented");
+            // throw new NotImplementedException("AddToQueue method not yet implemented");
         }
 
         /// <summary>
@@ -104,10 +124,62 @@ namespace Assignment6
         /// </summary>
         public Match? TryCreateMatch(GameMode mode)
         {
+            if (GetQueueByMode(mode).Count >= 2)
+            {
+                if (mode is GameMode.Casual)
+                {
+                    var player1 = casualQueue.Dequeue();
+                    RemoveFromAllQueues(player1);
+                    var player2 = casualQueue.Dequeue();
+                    RemoveFromAllQueues(player2);
+                    var match = new Match(player1, player2, mode);
+                    return match;
+                }
+                else if (mode is GameMode.Ranked)
+                {
+                    var player1 = rankedQueue.Peek();
+                    var player2 = rankedQueue.Where(p => CanMatchInRanked(player1, p)).FirstOrDefault();
+                    if (player2 != null)
+                    {
+                        RemoveFromAllQueues(player1);
+                        RemoveFromAllQueues(player2);
+                        return new Match(player1, player2, mode);                        
+                    }
+                    return null;
+                }
+                else if (mode is GameMode.QuickPlay)
+                {
+                    // gets player who has been waiting longest
+                    var player1 = quickPlayQueue.Peek();
+                    // trys to find a player of similar skill to player1
+                    var player2 = quickPlayQueue.Where(p => CanMatchInRanked(player1, p)).FirstOrDefault();
+                    
+                    
+                    if (player2 != null) // if similar skill level found
+                    {
+                        RemoveFromAllQueues(player1);
+                        RemoveFromAllQueues(player2);
+                        return new Match(player1, player2, mode);
+                    }
+                    else if (quickPlayQueue.Count > 4) // if no similar skill level found, but there is more than 4 players in queue
+                    {
+                        RemoveFromAllQueues(player1);
+                        // important bc it removes the player who has been waiting second longest
+                        player2 = quickPlayQueue.Dequeue();
+                        player2.LeaveQueue();
+                        return new Match(player1, player2, mode);
+                    }
+                    else return null;
+                }
+                else return null; 
+            }
+            else return null;
+            
+
             // TODO: Implement this method
             // Hint: Different logic needed for each mode
             // Remember to check queue count first!
-            throw new NotImplementedException("TryCreateMatch method not yet implemented");
+            // throw new NotImplementedException("TryCreateMatch method not yet implemented");
         }
 
         /// <summary>
@@ -121,9 +193,14 @@ namespace Assignment6
         /// </summary>
         public void ProcessMatch(Match match)
         {
+            match.SimulateOutcome();
+            matchHistory.Add(match);
+            totalMatches++;
+            match.ToString();
+
             // TODO: Implement this method
             // Hint: Very straightforward - simulate, record, display
-            throw new NotImplementedException("ProcessMatch method not yet implemented");
+            // throw new NotImplementedException("ProcessMatch method not yet implemented");
         }
 
         /// <summary>
@@ -139,9 +216,38 @@ namespace Assignment6
         /// </summary>
         public void DisplayQueueStatus()
         {
+            Console.WriteLine("=== Current Queue Status ===");
+
+            Console.WriteLine("Casual Queue");
+            Console.WriteLine($"Player Count: {casualQueue.Count}");
+            DrawQueue(casualQueue);
+
+            Console.WriteLine("Ranked Queue");
+            Console.WriteLine($"Player Count: {rankedQueue.Count}");
+            DrawQueue(rankedQueue);
+
+            Console.WriteLine("QuickPlay Queue");
+            Console.WriteLine($"Player Count: {quickPlayQueue.Count}");
+            DrawQueue(quickPlayQueue);
+
             // TODO: Implement this method
             // Hint: Loop through each queue and display formatted information
-            throw new NotImplementedException("DisplayQueueStatus method not yet implemented");
+            // throw new NotImplementedException("DisplayQueueStatus method not yet implemented");
+        }
+        private void DrawQueue(Queue<Player> players)
+        {
+            if (players.Count > 0)
+            {
+                int i = 1;
+                foreach (Player p in players)
+                {
+                    Console.WriteLine($" {i:D2}. {p.Username} - waiting time: {p.GetQueueTime()}");
+                    i++;
+                }
+            }
+            else
+                Console.WriteLine("Queue is empty");
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -155,9 +261,29 @@ namespace Assignment6
         /// </summary>
         public void DisplayPlayerStats(Player player)
         {
+            List<Match> playerMatchHistory = matchHistory.Where(m => (m.Player1 == player) || (m.Player2 == player));
+            int i = 3;
+            int j = playerMatchHistory.Count();
+
+            Console.WriteLine(player.ToDetailedString());
+            Console.WriteLine();
+            if (playerMatchHistory.Count > 0)
+            {
+                foreach(Match m in playerMatchHistory)
+                {
+                    if (i == 0 || j == 0)
+                        break;
+                    Console.WriteLine(m.ToDetailedString());
+                    i--; j--;
+                }
+                Console.WriteLine();
+            }
+            else
+                Console.WriteLine();
+
             // TODO: Implement this method
             // Hint: Combine player info with match history filtering
-            throw new NotImplementedException("DisplayPlayerStats method not yet implemented");
+            // throw new NotImplementedException("DisplayPlayerStats method not yet implemented");
         }
 
         /// <summary>
@@ -171,9 +297,16 @@ namespace Assignment6
         /// </summary>
         public string GetQueueEstimate(GameMode mode)
         {
+            if (GetQueueByMode(mode).Count >= 2)
+                return "No wait";
+            else if (GetQueueByMode(mode).Count == 1)
+                return "Short wait";
+            else
+                return "Long wait";
+
             // TODO: Implement this method
             // Hint: Check queue counts and apply mode-specific logic
-            throw new NotImplementedException("GetQueueEstimate method not yet implemented");
+            // throw new NotImplementedException("GetQueueEstimate method not yet implemented");
         }
 
         // ============================================
