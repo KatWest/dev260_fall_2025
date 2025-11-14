@@ -83,8 +83,20 @@ namespace Assignment8
             // Hint: Use File.ReadAllLines() and handle FileNotFoundException
             // Hint: Use string.Trim() and string.ToLowerInvariant() for normalization
             // Hint: dictionary.Add() will automatically handle duplicates
+
+            try
+            {
+                var file = File.ReadAllLines(filename);
+                foreach(string s in file)
+                    dictionary.Add(s.Trim().ToLowerInvariant());
+                return true;
+            } 
+            catch (FileNotFoundException e)
+            {
+                return false;                
+            }
             
-            throw new NotImplementedException("LoadDictionary method not yet implemented");
+            // throw new NotImplementedException("LoadDictionary method not yet implemented");
         }
         
         /// <summary>
@@ -112,8 +124,31 @@ namespace Assignment8
             // Hint: Split on char[] { ' ', '\t', '\n', '\r' } for simple tokenization
             // Hint: Use Regex.Replace to remove punctuation: @"[^\w\s]" -> ""
             // Hint: Filter out empty strings after processing
+
+            try
+            {
+                allWordsInText.Clear();
+                uniqueWordsInText.Clear();
+                currentFileName = filename;
+
+                char[] chars = [' ', '\t', '\n', '\r'];
+                var file = File.ReadAllText(filename);
+                string[] words = Regex.Replace(file, @"[^\w\s]", "").Split(chars);
+
+                foreach (string word in words)
+                    if (word != "")
+                    {
+                        allWordsInText.Add(NormalizeWord(word));
+                        uniqueWordsInText.Add(NormalizeWord(word));
+                    }
+                return true;
+            }
+            catch (FileNotFoundException e)
+            {
+                return false;                
+            }
             
-            throw new NotImplementedException("AnalyzeTextFile method not yet implemented");
+            // throw new NotImplementedException("AnalyzeTextFile method not yet implemented");
         }
         
         /// <summary>
@@ -137,8 +172,18 @@ namespace Assignment8
             // Hint: Clear both correctlySpelledWords and misspelledWords first
             // Hint: Use a foreach loop over uniqueWordsInText
             // Hint: Use dictionary.Contains(word) for fast lookup
+
+            correctlySpelledWords.Clear(); 
+            misspelledWords.Clear();
+            foreach(string word in uniqueWordsInText)
+            {
+                if (dictionary.Contains(word))
+                    correctlySpelledWords.Add(word);
+                else
+                    misspelledWords.Add(word);
+            }
             
-            throw new NotImplementedException("CategorizeWords method not yet implemented");
+            // throw new NotImplementedException("CategorizeWords method not yet implemented");
         }
         
         /// <summary>
@@ -163,8 +208,20 @@ namespace Assignment8
             // Hint: Normalize the word using the same method as other operations
             // Hint: Use dictionary.Contains() and uniqueWordsInText.Contains()
             // Hint: Use allWordsInText.Count(w => w.Equals(normalizedWord, StringComparison.OrdinalIgnoreCase))
+
+            var normalizedWord = NormalizeWord(word);
+            var inDictionary = false;
+            var inText = false;
+            var occurrences = 0;
+            if (dictionary.Contains(normalizedWord))
+                inDictionary = true;
+            if (uniqueWordsInText.Contains(normalizedWord))
+                inText = true;
+            occurrences = allWordsInText.Count(w => w.Equals(normalizedWord, StringComparison.OrdinalIgnoreCase));
+
+            return (inDictionary, inText, occurrences);
             
-            throw new NotImplementedException("CheckWord method not yet implemented");
+            // throw new NotImplementedException("CheckWord method not yet implemented");
         }
         
         /// <summary>
@@ -188,6 +245,12 @@ namespace Assignment8
             // Hint: Convert misspelledWords to List, then use OrderBy()
             // Hint: Use Take(maxResults) to limit results if needed
             // Hint: Return empty list if no text has been analyzed
+            
+            if (misspelledWords.Count > 0)
+            {
+                
+            }
+            else return new List<string>();
             
             throw new NotImplementedException("GetMisspelledWords method not yet implemented");
         }
