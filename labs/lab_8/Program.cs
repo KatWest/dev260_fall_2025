@@ -126,13 +126,13 @@ namespace Lab8_Sets
             emailList.Clear();
             emailList.AddRange(uniqueEmailSet);
 
-
+            return originalCount - emailList.Count;
 
             // TODO: Implement this method
             // Hint: Create HashSet with StringComparer.OrdinalIgnoreCase
             // Compare original count with HashSet count to find duplicates removed
 
-            throw new NotImplementedException("DeduplicateEmails method needs implementation");
+            // throw new NotImplementedException("DeduplicateEmails method needs implementation");
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace Lab8_Sets
             // TODO: Implement this method
             // Hint: Create copy of enrolledLastQuarter, then use ExceptWith(enrolledNow)
 
-            throw new NotImplementedException("FindDroppedStudents method needs implementation");
+            // throw new NotImplementedException("FindDroppedStudents method needs implementation");
         }
 
         /// <summary>
@@ -300,12 +300,17 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            var continuingStudents = new HashSet<string>(enrolledNow);
+            continuingStudents.IntersectWith(enrolledLastQuarter);
+
+            return continuingStudents;
+
             // return enrolledNow.Intersect(enrolledLastQuarter);
 
             // TODO: Implement this method
             // Hint: Create copy of enrolledNow, then use IntersectWith(enrolledLastQuarter)
 
-            throw new NotImplementedException("FindContinuingStudents method needs implementation");
+            // throw new NotImplementedException("FindContinuingStudents method needs implementation");
         }
 
         /// <summary>
@@ -334,7 +339,7 @@ namespace Lab8_Sets
             // Hint: Use FindContinuingStudents() method you implemented
             // Calculate: (continuing count / last quarter count) * 100
 
-            throw new NotImplementedException("CalculateRetentionRate method needs implementation");
+            // throw new NotImplementedException("CalculateRetentionRate method needs implementation");
         }
 
         public void RunInteractiveMenu()
