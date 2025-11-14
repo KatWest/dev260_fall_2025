@@ -1,49 +1,52 @@
 # Assignment 8: Spell Checker & Vocabulary Explorer - Implementation Notes
 
-**Name:** [Your Name]
+**Name:** Katherine West
 
 ## HashSet Pattern Understanding
 
 **How HashSet<T> operations work for spell checking:**
-[Explain your understanding of how O(1) lookups, automatic uniqueness, and set-based categorization work together for efficient text analysis]
+By checking if a string exists within a HashSet designated as a dictionary, the string can be assumed to be spelled correctly.
+
+However, that is assuming that the string within the dictionary is also spelled correctly. Additionally, words that have participles are not considered as correct unless they are added to the dictionary.
 
 ## Challenges and Solutions
 
 **Biggest challenge faced:**
-[Describe the most difficult part of the assignment - was it text normalization, HashSet operations, or file I/O handling?]
+Probably the hardest part for me was the file I/O handling. Mainly because I did not initally clock that the file name would be passed in with the file extension. I struggled with the program not reading the file until I added a line to print the exact file name that was passed in.
 
 **How you solved it:**
-[Explain your solution approach and what helped you figure it out]
+Added a line to print the exact file name that was passed in.
 
 **Most confusing concept:**
-[What was hardest to understand about HashSet operations, text processing, or case-insensitive comparisons?]
+No concepts were confusing
 
 ## Code Quality
 
 **What you're most proud of in your implementation:**
-[Highlight the best aspect of your code - maybe your normalization strategy, error handling, or efficient text analysis]
+BEGONE CURLY BRACKETS AROUND SINGLE LINES OF CODE!! 🧙🏼‍♂️
+Also, chaining OrderBy, Take, and ToList for the return statements for GetMisspelledWords and GetUniqueWordsSample
 
 **What you would improve if you had more time:**
-[Identify areas for potential improvement - perhaps better tokenization, more robust error handling, or additional features]
+Add more words to the dictionary. Maybe use an online dictionary api to get all the words in like the Merriam-Webster dictionary.
 
 ## Testing Approach
 
 **How you tested your implementation:**
-[Describe your overall testing strategy - how did you verify spell checking worked correctly?]
+Ran the program and clicked buttons.
 
 **Test scenarios you used:**
 [List specific scenarios you tested, like mixed case words, punctuation handling, edge cases, etc.]
 
 **Issues you discovered during testing:**
-[Any bugs or problems you found and fixed during development]
+no issues
 
 ## HashSet vs List Understanding
 
 **When to use HashSet:**
-[Explain when you would choose HashSet over List based on your experience]
+When I need to just have a bucket of data and do not need it to be sorted in any way.
 
 **When to use List:**
-[Explain when List is more appropriate than HashSet]
+When I need the data in a spacific order.
 
 **Performance benefits observed:**
 [Describe how O(1) lookups and automatic uniqueness helped your implementation]
@@ -57,21 +60,20 @@
 [What insights did you gain about handling real-world text data and normalization?]
 
 ## Stretch Features
-
-[If you implemented any extra credit features like vocabulary suggestions or advanced analytics, describe them here. If not, write "None implemented"]
+None implemented
 
 ## Time Spent
 
-**Total time:** [X hours]
+**Total time:** 7 hr
 
 **Breakdown:**
-- Understanding HashSet concepts and assignment requirements: [X hours]
-- Implementing the 6 core methods: [X hours]
-- Testing different text files and scenarios: [X hours]
-- Debugging and fixing issues: [X hours]
-- Writing these notes: [X hours]
+- Understanding HashSet concepts and assignment requirements: 0.5 hr
+- Implementing the 6 core methods: 4 hr
+- Testing different text files and scenarios: 1 hr
+- Debugging and fixing issues: 1 hr
+- Writing these notes: 0.5 hr
 
-**Most time-consuming part:** [Which aspect took the longest and why - text normalization, HashSet operations, file I/O, etc.]
+**Most time-consuming part:** Coding
 
 ## Key Learning Outcomes
 

@@ -247,12 +247,10 @@ namespace Assignment8
             // Hint: Return empty list if no text has been analyzed
             
             if (misspelledWords.Count > 0)
-            {
-                
-            }
+                return misspelledWords.OrderBy(q => q).Take(maxResults).ToList();
             else return new List<string>();
             
-            throw new NotImplementedException("GetMisspelledWords method not yet implemented");
+            // throw new NotImplementedException("GetMisspelledWords method not yet implemented");
         }
         
         /// <summary>
@@ -275,8 +273,12 @@ namespace Assignment8
             // TODO: Implement unique words sample retrieval
             // Hint: Similar to GetMisspelledWords but use uniqueWordsInText
             // Hint: Consider showing a mix of correct and misspelled words
+
+            if (uniqueWordsInText.Count > 0)
+                return uniqueWordsInText.OrderBy(q => q).Take(maxResults).ToList();
+            else return new List<string>();
             
-            throw new NotImplementedException("GetUniqueWordsSample method not yet implemented");
+            // throw new NotImplementedException("GetUniqueWordsSample method not yet implemented");
         }
         
         // Helper method for consistent word normalization
