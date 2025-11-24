@@ -235,17 +235,42 @@ namespace FileSystemNavigator
         {
             operationCount++;
 
-            var node = SearchNode(root, fileName);
+            var node = DeleteItemRecurssive(root, fileName);
             
-            
-            // TODO: Implement file/directory deletion
-            // Hints:
-            // 1. Find the node to delete first
-            // 2. Handle three cases: no children, one child, two children
-            // 3. For two children case, find inorder successor
-            // 4. Update tree structure properly
-            
-            throw new NotImplementedException("DeleteItem method needs implementation");
+            if (node != null) return true;
+            else return false;
+        }
+
+        private TreeNode? DeleteItemRecurssive(TreeNode? node, string fileName)
+        {
+            if (node == null)
+                return node;
+
+            var check = string.Compare(node.FileData.Name, fileName, StringComparison.OrdinalIgnoreCase);
+            if (check > 0)
+                node.Left = DeleteItemRecurssive(node, fileName);
+            else if (check < 0)
+                node.Right = DeleteItemRecurssive(node, fileName);
+            else
+            {
+                if (node.Left == null)
+                    return node.Right;
+                if (node.Right == null)
+                    return root.Left;
+
+                var succ = GetSuccessor(node);
+                node.FileData = succ.FileData;
+                node.Right = DeleteItemRecurssive(node.Right, fileName);
+            }
+            return node;            
+        }
+
+        private static TreeNode GetSuccessor(TreeNode curr)
+        {
+            curr = curr.Right;
+            while (curr != null && curr.Left != null)
+                curr = curr.Left;
+            return curr;
         }
 
         // ============================================
