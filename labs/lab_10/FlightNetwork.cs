@@ -69,15 +69,21 @@ namespace Assignment10
         /// <param name="airport">Airport object to add</param>
         public void AddAirport(Airport airport)
         {
-            // TODO LAB: Implement airport addition
-            // Hint: Check if airport is null or airport.Code is null/whitespace
-            // Hint: Display error message and return if invalid
-            // Hint: Convert code to uppercase: airport.Code.ToUpperInvariant()
-            // Hint: Check if airports dictionary already contains this code
-            // Hint: If not present, add to airports dictionary
-            // Hint: Also initialize empty List<Flight> in routes dictionary
-            
-            throw new NotImplementedException("AddAirport method not yet implemented");
+            if (airport == null || string.IsNullOrWhiteSpace(airport.Code))
+            {
+                Console.WriteLine("Invalid airport. Cannot add null or empty code.");
+                return;
+            }
+
+            string code = airport.Code.ToUpperInvariant();
+            if (!airports.ContainsKey(code))
+            {
+                airports[code] = airport;
+                if (!routes.ContainsKey(code))
+                {
+                    routes[code] = new List<Flight>();
+                }
+            }
         }
 
         /// <summary>
@@ -99,17 +105,30 @@ namespace Assignment10
         /// <param name="flight">Flight object to add</param>
         public void AddFlight(Flight flight)
         {
-            // TODO LAB: Implement flight addition
-            // Hint: Validate flight is not null and both Origin and Destination are not null/whitespace
-            // Hint: Convert both airport codes to uppercase
-            // Hint: Check if origin airport exists, if not create it:
-            //   - Look up city name in airportCities dictionary
-            //   - Call AddAirport with new Airport object
-            // Hint: Do the same for destination airport
-            // Hint: Ensure routes dictionary has a list for origin airport
-            // Hint: Add the flight to routes[origin] list
-            
-            throw new NotImplementedException("AddFlight method not yet implemented");
+            if (flight == null || string.IsNullOrWhiteSpace(flight.Origin) || string.IsNullOrWhiteSpace(flight.Destination))
+            {
+                Console.WriteLine("Invalid flight. Cannot add null or incomplete flight");
+                return;
+            }
+
+            string originCode = flight.Origin.ToUpperInvariant();
+            string destinationCode = flight.Destination.ToUpperInvariant();
+
+            if (!airports.ContainsKey(originCode))
+            {
+                string originCity = airportCities.ContainsKey(originCode) ? airportCities[originCode] : "Unknown City";
+                AddAirport(new Airport(originCode, $"{originCity} Airport", originCity));
+            }
+            if (!airports.ContainsKey(destinationCode))
+            {
+                string destinationCity = airportCities.ContainsKey(destinationCode) ? airportCities[destinationCode] : "Unknown City";
+                AddAirport(new Airport(destinationCode, $"{destinationCity} Airport", destinationCity));                
+            }
+
+            if (!routes.ContainsKey(originCode))
+                routes[originCode] = new List<FlightNetwork>();
+
+            routes[originCode].Add(flight);
         }
 
         /// <summary>
@@ -135,26 +154,52 @@ namespace Assignment10
         /// <param name="filename">Path to the CSV file</param>
         public void LoadFlightsFromCSV(string filename)
         {
-            // TODO LAB: Implement CSV loading
-            // Hint: Check if File.Exists(filename), if not throw FileNotFoundException
-            // Hint: Use File.ReadAllLines(filename) to read all lines
-            // Hint: Check if lines array is empty
-            // Hint: Create counter variable for flights loaded
-            // Hint: Loop from i=1 (skip header) to lines.Length
-            // Hint: For each line:
-            //   - Trim whitespace
-            //   - Skip if empty
-            //   - Use try-catch for parsing errors
-            //   - Split by comma: line.Split(',')
-            //   - Check if parts.Length >= 5
-            //   - Extract: origin, destination, airline, duration, cost
-            //   - Parse duration as int, cost as decimal
-            //   - Create new Flight object
-            //   - Call AddFlight(flight)
-            //   - Increment counter
-            // Hint: Display success message with count
-            
-            throw new NotImplementedException("LoadFlightsFromCSV method not yet implemented");
+
+            if (!File.Exists(filename))
+            throw new FileNotFoundException($"File not found: {filename}");
+
+            string[] lines = File.ReadAllLines(filename);
+
+            if (lines.Length == 0)
+            {
+                Console.WriteLine("CSV file is empty");
+                return;
+            }
+
+            int flightsLoaded = 0;
+            for (int i = 1; i <  lines.Length; i++)
+            {
+                string line = lines[i].Trim();
+
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
+                try
+                {
+                    string[] parts = line.Split(',');
+
+                    if (parts.Length < 5)
+                    {
+                        Console.WriteLine($"Invalid data format on line {i + 1}: {line}");
+                        continue;
+                    }
+
+                    string origin = parts[0].Trim();
+                    string destination = parts[1].Trim();
+                    string airline = parts[2].Trim();
+                    int duration = int.Parse(parts[3].Trim());
+                    decimal cost = decimal.Parse(parts[4].Trim());
+
+                    Flight flight = new Flight(origin, destination, airline, duration, cost);
+                    AddFlight(flight);
+                    flightsLoaded++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error parsing line {i + 1 }: {line}. Exception: {ex.Message}");                    
+                }
+            }
+            Console.WriteLine($"Successfully loaded {flightsLoaded} flights connecting {airports.Count} airports");  
         }
 
         /// <summary>
@@ -176,15 +221,17 @@ namespace Assignment10
         /// </summary>
         public void DisplayAllAirports()
         {
-            // TODO LAB: Implement airport display
-            // Hint: Check if airports.Count == 0, display message and return
-            // Hint: Display header with count using string interpolation
-            // Hint: Use foreach loop over airports.Values.OrderBy(a => a.Code)
-            // Hint: For each airport, get connection count from routes dictionary
-            // Hint: Use string formatting: {airport.Code,-5} for left-aligned 5 chars
-            // Hint: Display: code, city name, and connection count
-            
-            throw new NotImplementedException("DisplayAllAirports method not yet implemented");
+            if (airports.Count == 0)
+            {
+                Console.WriteLine("No airports in the network");
+                return;
+            }
+            Console.WriteLine($"\n=== All Airports({airports.Count}) ===");
+            foreach(var airport in airports.Values.OrderBy(airportCities => airportCities.Code))
+            {
+                int connectionCount = routes.ContainsKey(airport.Code) ? routes[airport.Code] : 0;
+                Console.WriteLine($"{airport.Code,-5} {airport.City,-20} {connectionCount}");
+            }
         }
 
         /// <summary>
@@ -207,14 +254,11 @@ namespace Assignment10
         /// <returns>Airport object or null if not found</returns>
         public Airport? GetAirport(string code)
         {
-            // TODO LAB: Implement airport retrieval
-            // Hint: Check if code is null or whitespace, return null if so
-            // Hint: Convert code to uppercase: code.ToUpperInvariant()
-            // Hint: Check if airports.ContainsKey(upperCode)
-            // Hint: If found, return airports[upperCode], otherwise return null
-            // Hint: Can use ternary operator: condition ? valueIfTrue : valueIfFalse
-            
-            throw new NotImplementedException("GetAirport method not yet implemented");
+            if (string.IsNullOrWhiteSpace(code))
+                return null;
+
+            string upperCode = code.ToUpperInvariant();
+            return airports.ContainsKey(upperCode) ? airports[upperCode] : null;
         }
 
         #endregion
@@ -242,14 +286,20 @@ namespace Assignment10
         /// <returns>List of direct flights, or empty list if none exist</returns>
         public List<Flight> FindDirectFlights(string origin, string destination)
         {
-            // TODO ASSIGNMENT: Implement direct flight search
-            // Hint: Validate inputs first (check for null/empty strings)
-            // Hint: Use ToUpperInvariant() for consistent airport code comparison
-            // Hint: Check if routes.ContainsKey(origin) before accessing
-            // Hint: Use LINQ .Where() to filter flights by destination
-            // Hint: Return empty list if origin doesn't exist or no matches found
+            List<Flight> directFlights = new List<Flight>();
+
+            if (string.IsNullOrWhiteSpace(origin) || string.IsNullOrWhiteSpace(destination))
+                return directFlights;
             
-            throw new NotImplementedException("FindDirectFlights method not yet implemented");
+            string originUpper = origin.ToUpperInvariant();
+            string destinationUpper = destination.ToUpperInvariant();
+            if (!routes.ContainsKey(originUpper))
+                return directFlights;
+            
+            foreach(Flight flight in routes[originUpper])
+                if (flight.Destination.Equals(destinationUpper, StringComparison.OrdinalIgnoreCase))
+                    directFlights.Add(flight);
+            return directFlights;
         }
 
         /// <summary>
@@ -302,13 +352,12 @@ namespace Assignment10
         /// <returns>Cheapest flight, or null if no direct flight exists</returns>
         public Flight? FindCheapestDirectFlight(string origin, string destination)
         {
-            // TODO ASSIGNMENT: Implement cheapest flight search
-            // Hint: Call FindDirectFlights(origin, destination) to get all options
-            // Hint: Check if the list is empty and return null if so
-            // Hint: Use .OrderBy(f => f.Cost).First() to find minimum cost flight
-            // Alternative: Use .MinBy(f => f.Cost) if available in your .NET version
-            
-            throw new NotImplementedException("FindCheapestDirectFlight method not yet implemented");
+            List<Flight> directFlights = FindDirectFlights(origin, destination);
+
+            if (directFlights.Count == 0)
+                return null;
+
+            return directFlights.OrderBy(f => f.Cost).First();
         }
 
         #endregion
