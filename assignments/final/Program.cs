@@ -12,7 +12,8 @@ namespace AdventurerGuild
             try
             {
                 var guildSystem = new GuildSystem();
-                var navigator = new GuildSystemNavigator(guildSystem);
+                var monsterSystem = new MonsterSystem();
+                var navigator = new GuildSystemNavigator(guildSystem, monsterSystem);
 
                 navigator.Run();
             }

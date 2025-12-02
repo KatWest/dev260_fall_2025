@@ -4,15 +4,15 @@ namespace AdventurerGuild
     {
         public string Name { get; set; }
         public string Discription { get; set; } = string.Empty;
-        public QuestDifficulty Difficulty { get; set; }
+        public Difficulty Difficulty { get; set; }
         public QuestType Type { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public bool Repeatable { get; set; } = false;
 
-        public Quest(string name, string? discription, QuestDifficulty difficulty, QuestType questType, bool? repeatable)
+        public Quest(string name, string? discription, Difficulty difficulty, QuestType questType, bool? repeatable)
         {
             Name = name;
-            if (discription != string.Empty || discription != null)
+            if (discription != null)
                 Discription = discription;
             Difficulty = difficulty;
             Type = questType;
@@ -35,7 +35,7 @@ namespace AdventurerGuild
         Guard,
         Service
     }
-    public enum QuestDifficulty
+    public enum Difficulty
     {
         Diamond,
         Gold,
