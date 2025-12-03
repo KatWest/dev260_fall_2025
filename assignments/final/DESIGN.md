@@ -13,15 +13,15 @@ _List your main entities with key fields, identifiers, and relationships (1–2 
 
 **Entity A:**
 
-- Name:
-- Key fields:
+- Name: Quest
+- Key fields: Name, Discription, Difficulty, Type, CreateDate, Repeatable
 - Identifiers:
-- Relationships:
+- Relationships: 
 
 **Entity B (if applicable):**
 
-- Name:
-- Key fields:
+- Name: Monster
+- Key fields: Name, Discription, Difficulty
 - Identifiers:
 - Relationships:
 
@@ -42,16 +42,19 @@ _List only the meaningful data structures you chose. For each, state the purpose
 _Name the data structure (e.g., Dictionary<string, Customer>)._
 
 **Your Answer:**
+List<Quest>
 
 **Purpose / Role in App:**  
 _What user action or feature does it power?_
 
 **Your Answer:**
+Acts as an in-order storage for Quest objects
 
 **Why it fits:**  
 _Explain access patterns, typical size, performance/Big-O, memory, simplicity._
 
 **Your Answer:**
+Easily resizable
 
 **Alternatives considered:**  
 _List alternatives (e.g., List<T>, SortedDictionary, custom tree) and why you didn't choose them._
@@ -66,16 +69,19 @@ _List alternatives (e.g., List<T>, SortedDictionary, custom tree) and why you di
 _Name the data structure._
 
 **Your Answer:**
+Dictionary<string, Monster>
 
 **Purpose / Role in App:**  
 _What user action or feature does it power?_
 
 **Your Answer:**
+Acts as a repository for Monster data
 
 **Why it fits:**  
 _Explain access patterns, typical size, performance/Big-O, memory, simplicity._
 
 **Your Answer:**
+I just needed a bucket to hold data that was dynamically resizeable
 
 **Alternatives considered:**  
 _List alternatives and why you didn't choose them._
@@ -124,6 +130,7 @@ _Explain what comparers you used and why (e.g., StringComparer.OrdinalIgnoreCase
 **Your Answer:**
 
 **For keys:**
+ToLower() then Equals()
 
 **For display sorting (if different):**
 
@@ -131,6 +138,7 @@ _Explain what comparers you used and why (e.g., StringComparer.OrdinalIgnoreCase
 _Describe how you normalize strings (trim whitespace, collapse duplicates, canonicalize casing)._
 
 **Your Answer:**
+Trim whitespace
 
 **Bad key examples avoided:**  
 _List examples of bad key choices and why you avoided them (e.g., non-unique names, culture-varying text, trailing spaces, substrings that can change)._

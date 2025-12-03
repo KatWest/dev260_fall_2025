@@ -1,6 +1,6 @@
 # Project Title
 
-> One-sentence summary of what this app does and who it's for.
+> An app simulating how a fantasy adventurer's guild might work.
 
 ---
 
@@ -10,16 +10,24 @@
 _Explain the real-world task your app supports and why it's useful (2–4 sentences)._
 
 **Your Answer:**
+This app acts as an organizational tool for adventurer guild staff and members. Guild staff can use this app to add quests to the digital quest board, and add monsters from adventurer reports to the Monster Compendium. Adventurers can use this app to check the quest board for quests and review the Monster Compendium.
 
 **Core features:**  
 _List the main features your application provides (Add, Search, List, Update, Delete, etc.)_
 
 **Your Answer:**
 
--
--
--
--
+- QUESTS
+- Add quests
+- View all avalable quests
+- Update quest data
+- Indicate that a quest has been assigned
+- Indicate that a quest has been completed
+- MONSTER COMPENDIUM
+- Add monster to the compendium
+- View monster compendium
+- Update monster data
+- Delete monster data
 
 ## How to Run
 
@@ -29,8 +37,8 @@ _List required .NET version, OS requirements, and any dependencies._
 **Your Answer:**
 
 ```bash
-git clone <your-repo-url>
-cd <your-folder>
+git clone https://github.com/KatWest/dev260_fall_2025.git
+cd final
 dotnet build
 ```
 
@@ -47,6 +55,7 @@ dotnet run
 _Describe where sample data lives and how to load it (e.g., JSON file path, CSV import)._
 
 **Your Answer:**
+The sample data should automatically load on program run. It is currently hard-coded in GuildSystemNavigator.cs
 
 ---
 
@@ -57,15 +66,15 @@ _Describe the typical user workflow in 2–4 steps._
 
 **Your Answer:**
 
-1.
-2.
-3.
-4.
+1. Start app
+2. Choose menu choice
+3. Follow prompts
 
 **Input tips:**  
 _Explain case sensitivity, required fields, and how common errors are handled gracefully._
 
 **Your Answer:**
+Navigation commands should be case-insensitive. Monster Dictionary keys are made lowercase.
 
 ---
 
@@ -78,10 +87,8 @@ _List each data structure and briefly explain what feature it powers._
 
 **Your Answer:**
 
-- `Dictionary<...>` →
-- `List<...>` →
-- `HashSet<...>` →
-- _(Add others: Queue, Stack, SortedDictionary, custom BST/Graph, etc.)_
+- `Dictionary<...>` → Acts as Monster Compendium
+- `List<...>` → Acts as Quest Board
 
 ---
 
@@ -208,10 +215,10 @@ _What insights did you gain about choosing appropriate data structures, performa
 
 ## Submission Checklist
 
-- [ ] Public GitHub repository link submitted
-- [ ] README.md completed (this file)
-- [ ] DESIGN.md completed
-- [ ] Source code included and builds successfully
+- [x] Public GitHub repository link submitted
+- [x] README.md completed (this file)
+- [x] DESIGN.md completed
+- [x] Source code included and builds successfully
 - [ ] (Optional) Slide deck or 5–10 minute demo video link (unlisted)
 
 **Demo Video Link (optional):**
