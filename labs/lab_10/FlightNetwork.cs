@@ -126,7 +126,7 @@ namespace Assignment10
             }
 
             if (!routes.ContainsKey(originCode))
-                routes[originCode] = new List<FlightNetwork>();
+                routes[originCode] = new List<Flight>();
 
             routes[originCode].Add(flight);
         }
@@ -154,9 +154,8 @@ namespace Assignment10
         /// <param name="filename">Path to the CSV file</param>
         public void LoadFlightsFromCSV(string filename)
         {
-
             if (!File.Exists(filename))
-            throw new FileNotFoundException($"File not found: {filename}");
+                throw new FileNotFoundException($"File not found: {filename}");
 
             string[] lines = File.ReadAllLines(filename);
 
@@ -229,8 +228,8 @@ namespace Assignment10
             Console.WriteLine($"\n=== All Airports({airports.Count}) ===");
             foreach(var airport in airports.Values.OrderBy(airportCities => airportCities.Code))
             {
-                int connectionCount = routes.ContainsKey(airport.Code) ? routes[airport.Code] : 0;
-                Console.WriteLine($"{airport.Code,-5} {airport.City,-20} {connectionCount}");
+                int connectionCount = routes.ContainsKey(airport.Code) ? routes[airport.Code].Count : 0;
+                Console.WriteLine($"{airport.Code,-5} - {airport.City,-20} | {connectionCount} outgoing flights");
             }
         }
 
@@ -323,14 +322,16 @@ namespace Assignment10
         /// <returns>Sorted list of reachable airport codes</returns>
         public List<string> GetDestinationsFrom(string origin)
         {
-            // TODO ASSIGNMENT: Implement destination listing
-            // Hint: Similar validation as FindDirectFlights
-            // Hint: Use .Select(f => f.Destination) to get destination codes
-            // Hint: Use .Distinct() to remove duplicates (multiple flights to same airport)
-            // Hint: Use .OrderBy(code => code) for alphabetical sorting
-            // Hint: Convert to List with .ToList()
-            
-            throw new NotImplementedException("GetDestinationsFrom method not yet implemented");
+            if (string.IsNullOrWhiteSpace(origin) || !airports.ContainsKey(origin.ToUpperInvariant()))
+                return new List<string>();
+
+            string originUpper = origin.ToUpperInvariant();
+
+            return routes[originUpper]
+                .Select(f => f.Destination.ToUpperInvariant())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(code => code)
+                .ToList();
         }
 
         /// <summary>
@@ -395,20 +396,44 @@ namespace Assignment10
         /// <returns>List of airport codes in route order, or null if no route exists</returns>
         public List<string>? FindRoute(string origin, string destination)
         {
-            // TODO ASSIGNMENT: Implement BFS pathfinding
-            // Hint: Validate inputs (null/empty check)
-            // Hint: Convert to uppercase and verify airports exist in graph
-            // Hint: Handle special case: if origin == destination, return single-element list
-            // Hint: Create Queue<string>, HashSet<string> visited, Dictionary<string, string> parents
-            // Hint: Enqueue origin, mark as visited
-            // Hint: While loop: while (queue.Count > 0)
-            // Hint: Dequeue current airport
-            // Hint: Check if current == destination, if so call ReconstructPath() helper
-            // Hint: Loop through routes[current] to explore neighbors
-            // Hint: For each unvisited neighbor: mark visited, record parent, enqueue
-            // Hint: Return null if queue empties without finding destination
+            if (string.IsNullOrWhiteSpace(origin) || string.IsNullOrWhiteSpace(destination))
+                return null;
             
-            throw new NotImplementedException("FindRoute method not yet implemented");
+            string originUpper = origin.ToUpperInvariant();
+            string destinationUpper = destination.ToUpperInvariant();
+
+            if (!airports.ContainsKey(originUpper) || !airports.ContainsKey(destinationUpper))
+                return null;
+            if (originUpper == destinationUpper)
+                return new List<string> { originUpper };
+            
+            Queue<string> queue = new Queue<string>();
+            HashSet<string> visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, string> parents = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            queue.Enqueue(originUpper);
+            visited.Add(originUpper);
+
+            while (queue.Count > 0)
+            {
+                string current = queue.Dequeue();
+
+                if (current.Equals(destinationUpper, StringComparison.OrdinalIgnoreCase))
+                    return ReconstructPath(parents, originUpper, destinationUpper);
+
+                if (routes.ContainsKey(current))
+                    foreach(Flight flight in routes[current])
+                    {
+                        string neighbor = flight.Destination.ToUpperInvariant();
+                        if (!visited.Contains(neighbor))
+                        {
+                            visited.Add(neighbor);
+                            parents[neighbor] = current;
+                            queue.Enqueue(neighbor);
+                        }
+                    }
+            }
+            return null;            
         }
 
         /// <summary>
@@ -430,13 +455,7 @@ namespace Assignment10
         /// <returns>List of airport codes representing shortest route, or null if no route exists</returns>
         public List<string>? FindShortestRoute(string origin, string destination)
         {
-            // TODO ASSIGNMENT: Implement shortest route by stops
-            // Hint: BFS already finds shortest path by hop count
-            // Hint: Simply call and return FindRoute(origin, destination)
-            // Note: This method exists to make the distinction clear between
-            //       "shortest by stops" (BFS) and "cheapest by cost" (Dijkstra's)
-            
-            throw new NotImplementedException("FindShortestRoute method not yet implemented");
+            return FindRoute(origin, destination);
         }
 
         #endregion
@@ -479,29 +498,34 @@ namespace Assignment10
         /// <returns>List of airport codes representing cheapest route, or null if no route exists</returns>
         public List<string>? FindCheapestRoute(string origin, string destination)
         {
-            // TODO ASSIGNMENT: Implement Dijkstra's algorithm
-            // Hint: Validate inputs similar to FindRoute
-            // Hint: Create PriorityQueue<string, decimal> for min-cost extraction
-            // Hint: Create Dictionary<string, decimal> for distance tracking
-            // Hint: Create Dictionary<string, string> for parent tracking
-            // Hint: Create HashSet<string> for visited tracking
-            // Hint: Initialize all distances to decimal.MaxValue
-            // Hint: Set distances[origin] = 0
-            // Hint: Enqueue origin with priority 0
-            // Hint: While loop: while (priorityQueue.Count > 0)
-            // Hint: Dequeue current airport (minimum cost)
-            // Hint: Skip if visited.Contains(current) - avoid reprocessing
-            // Hint: Mark current as visited
-            // Hint: Check if current == destination, return ReconstructPath if so
-            // Hint: Loop through routes[current] for each flight
-            // Hint: Calculate newCost = distances[current] + flight.Cost
-            // Hint: Relaxation: if (newCost < distances[neighbor])
-            // Hint:   Update distances[neighbor] = newCost
-            // Hint:   Update parents[neighbor] = current
-            // Hint:   Enqueue neighbor with priority newCost
-            // Hint: Return null if destination never reached
-            
-            throw new NotImplementedException("FindCheapestRoute method not yet implemented");
+            if (string.IsNullOrWhiteSpace(origin)|| string.IsNullOrWhiteSpace(destination))
+                return null;
+
+            string originUpper = origin.ToUpperInvariant();
+            string destinationUpper = destination.ToUpperInvariant();
+
+            if (!airports.ContainsKey(originUpper)||!airports.ContainsKey(destinationUpper))
+                return null;
+
+            if (originUpper == destinationUpper)
+                return new List<string> { originUpper };
+
+            PriorityQueue<string, decimal> priorityQueue = new PriorityQueue<string, decimal>();
+            Dictionary<string, decimal> distances = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string,decimal> parents = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+            HashSet<string> visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach(string airportCode in airports.Keys)
+                distances[airportCode] = decimal.MaxValue;
+
+            distances[originUpper] = 0;
+            priorityQueue.Enqueue(originUpper, 0);
+
+            // while (priorityQueue.Count > 0)
+            // {
+                
+            // }
+            return null;
         }
 
         #endregion
@@ -607,15 +631,16 @@ namespace Assignment10
         /// <returns>List of airport codes sorted by connection count (descending)</returns>
         public List<string> FindHubAirports(int topN)
         {
-            // TODO ASSIGNMENT: Implement hub airport identification
-            // Hint: Return empty list if topN <= 0
-            // Hint: Use routes dictionary - each airport's Value.Count is its degree
-            // Hint: Use LINQ: routes.OrderByDescending(kvp => kvp.Value.Count)
-            // Hint: Use .Take(topN) to limit results
-            // Hint: Use .Select(kvp => kvp.Key) to extract airport codes
-            // Hint: Use .ToList() to convert to list
+            // if (topN <= 0)
+            //     return new List<string>();
             
-            throw new NotImplementedException("FindHubAirports method not yet implemented");
+            // return routes
+            //     .OrderByDescending(kvp => kvp.Value.Count)
+            //     .Take(topN)
+            //     .Select(kvp => kvp.Key)
+            //     .toList();
+
+            throw new NotImplementedException("FindHubAirports not yet implemented");
         }
 
         /// <summary>
@@ -639,22 +664,64 @@ namespace Assignment10
         /// <returns>Formatted string with network metrics</returns>
         public string CalculateNetworkStatistics()
         {
-            // TODO ASSIGNMENT: Implement network statistics calculation
-            // Hint: Return "No airports in the network." if airports.Count == 0
-            // Hint: Calculate totalFlights = routes.Values.Sum(flights => flights.Count)
-            // Hint: Calculate avgConnections = (double)totalFlights / routes.Count
-            // Hint: Find maxConnections = routes.Max(kvp => kvp.Value.Count)
-            // Hint: Find mostConnected airports: routes.Where(kvp => kvp.Value.Count == maxConnections)
-            // Hint: Find minConnections = routes.Min(kvp => kvp.Value.Count)
-            // Hint: Find leastConnected airports: routes.Where(kvp => kvp.Value.Count == minConnections)
-            // Hint: Get all flights: routes.Values.SelectMany(flights => flights).ToList()
-            // Hint: Calculate avgCost = allFlights.Average(f => f.Cost)
-            // Hint: Calculate avgDuration = allFlights.Average(f => f.Duration)
-            // Hint: Use StringBuilder to build multi-line output
-            // Hint: Format numbers with :F2 for 2 decimal places
-            // Hint: Convert duration to hours by dividing by 60
-            
-            throw new NotImplementedException("CalculateNetworkStatistics method not yet implemented");
+            throw new NotImplementedException("CalculateNetworkStatistics not yet implemented");
+
+            /*if (airports.Count == 0)
+                return "No airports in the network";
+
+            var stats = new System.Text.StringBuilder();
+            stats.AppendLine("");
+
+            int totalAirports = airports.Count;
+            int totalFlights = routes.Values.Sum(flights => flights.Count);
+
+            stats.AppendLine();
+            stats.AppendLine();
+
+            if (totalAirports > 0)
+            {
+                double avgConnections = (double)totalFlights / totalAirports;
+                stats.AppendLine($"{avgConnections:F2}");
+            }
+
+            if (routes.Count > 0)
+            {
+                int maxConnections = routes.Max(kvp => kvp.Value.Count);
+                int minConnections = routes.Min(kvp => kvp.Value.Count);
+
+                var mostConnected = routes
+                    .Where(kvp => kvp.Value.Count = maxConnections)
+                    .Select(kvp => kvp.Key).ToList();
+                
+                var leastConnected = routes
+                    .Where(kvp => kvp.Value.Count = minConnections)
+                    .Select(kvp => kvp.Key).ToList();
+
+                foreach(var code in mostConnected)
+                {
+                    var airport = airports[code];
+                }
+
+                foreach(var code in leastConnected)
+                {
+                    var airport = airports[code];
+                }
+            }
+
+            var allFlights = routes.Values.SelectMany(flights => flights).ToList();
+
+            if (allFlights.Count > 0)
+            {
+                decimal avgCost = 0;
+                decimal minCost = 0;
+                decimal maxCost = 0;
+
+                double avgDuration = 0;
+                double minDuration = 0;
+                double maxDuration = 0;
+            }
+
+            return stats.ToString(); */
         }
 
         /// <summary>
@@ -676,19 +743,22 @@ namespace Assignment10
         /// <returns>List of isolated airport codes</returns>
         public List<string> FindIsolatedAirports()
         {
-            // TODO ASSIGNMENT: Implement isolated airport detection
-            // Hint: Create empty List<string> isolated for results
-            // Hint: Create HashSet<string> hasIncoming to track airports with incoming flights
-            // Hint: Loop through routes.Values (all flight lists)
-            // Hint:   Loop through each flight in the list
-            // Hint:   Add flight.Destination to hasIncoming set
-            // Hint: Loop through airports.Keys to check each airport
-            // Hint:   Check hasOutgoing: routes.ContainsKey(code) && routes[code].Count > 0
-            // Hint:   Check hasIncomingFlights: hasIncoming.Contains(code)
-            // Hint:   If BOTH are false (no outgoing AND no incoming), add to isolated list
-            // Hint: Return isolated.OrderBy(code => code).ToList() for sorted output
-            
-            throw new NotImplementedException("FindIsolatedAirports method not yet implemented");
+            List<string> isolated = new List<string>();
+            HashSet<string>hasIncoming = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var flightList in routes.Values)
+                foreach (var flight in flightList)
+                    hasIncoming.Add(flight.Destination.ToUpperInvariant());
+
+            foreach(var airportCode in airports.Keys)
+            {
+                bool hasOutgoing = routes.ContainsKey(airportCode) && routes[airportCode].Count > 0;
+                bool hasIncomingFlights = hasIncoming.Contains(airportCode);
+
+                if (!hasOutgoing && !hasIncomingFlights)
+                    isolated.Add(airportCode);
+            }
+
+            return isolated.OrderBy(code => code).ToList();
         }
 
         #endregion
